@@ -304,7 +304,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     CGFloat height = size.height;
 
     // The player has not yet initialized.
-    if (height == CGSizeZero.height && width == CGSizeZero.width) {
+    if ([self containsVideo] && height == CGSizeZero.height && width == CGSizeZero.width) {
       return;
     }
     // The player may be initialized but still needs to determine the duration.
@@ -352,6 +352,10 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 
 - (void)setVolume:(double)volume {
   _player.volume = (float)((volume < 0.0) ? 0.0 : ((volume > 1.0) ? 1.0 : volume));
+}
+
+- (bool)containsVideo {
+  return [_player.currentItem.asset tracksWithMediaType:AVMediaTypeVideo].count > 0;
 }
 
 - (CVPixelBufferRef)copyPixelBuffer {
